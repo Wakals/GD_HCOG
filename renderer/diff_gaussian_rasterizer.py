@@ -127,6 +127,8 @@ class DiffGaussian(Rasterizer, GaussianBatchRenderer):
         means2D = screenspace_points
         opacity = pc.get_opacity
 
+        segment_p = pc.get_segment_p
+
         # If precomputed 3d covariance is provided, use it. If not, then it will be computed from
         # scaling / rotation by the rasterizer.
         scales = None
@@ -145,7 +147,7 @@ class DiffGaussian(Rasterizer, GaussianBatchRenderer):
             colors_precomp = override_color
 
         # Rasterize visible Gaussians to image, obtain their radii (on screen).
-        rendered_image, radii, rendered_depth, rendered_alpha = rasterizer(
+        rendered_image, radii, rendered_depth, rendered_alpha, rendered_segment = rasterizer(
             means3D=means3D,
             means2D=means2D,
             shs=shs,
@@ -154,6 +156,7 @@ class DiffGaussian(Rasterizer, GaussianBatchRenderer):
             scales=scales,
             rotations=rotations,
             cov3D_precomp=cov3D_precomp,
+            segment_p=segment_p,
         )
         _, H, W = rendered_image.shape
 

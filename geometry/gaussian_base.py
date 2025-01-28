@@ -277,6 +277,7 @@ class GaussianBaseModel(BaseGeometry, GaussianIO):
         self._xyz = torch.empty(0)
         self._features_dc = torch.empty(0)
         self._features_rest = torch.empty(0)
+        self._segment_p = torch.empty(0)
         self._scaling = torch.empty(0)
         self._rotation = torch.empty(0)
         self._opacity = torch.empty(0)
@@ -287,6 +288,21 @@ class GaussianBaseModel(BaseGeometry, GaussianIO):
             self._normal = torch.empty(0)
         self.optimizer = None
         self.setup_functions()
+
+        self.fix_xyz = torch.empty(0)
+        self.other_xyz = torch.empty(0)
+        self.fix_features_dc = torch.empty(0)
+        self.other_features_dc = torch.empty(0)
+        self.fix_features_rest = torch.empty(0)
+        self.other_features_rest = torch.empty(0)
+        self.fix_segment_p = torch.empty(0)
+        self.other_segment_p = torch.empty(0)
+        self.fix_scaling = torch.empty(0)
+        self.other_scaling = torch.empty(0)
+        self.fix_rotation = torch.empty(0)
+        self.other_rotation = torch.empty(0)
+        self.fix_opacity = torch.empty(0)
+        self.other_opacity = torch.empty(0)
 
         if self.cfg.geometry_convert_from.startswith("shap-e:"):
             shap_e_guidance = threestudio.find("shap-e-guidance")(
@@ -415,6 +431,10 @@ class GaussianBaseModel(BaseGeometry, GaussianIO):
         features_dc = self._features_dc
         features_rest = self._features_rest
         return torch.cat((features_dc, features_rest), dim=1)
+
+    @property
+    def get_segment_p(self):
+        return self._segment_p
 
     @property
     def get_opacity(self):

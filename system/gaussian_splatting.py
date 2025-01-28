@@ -57,6 +57,9 @@ class GaussianSplatting(BaseLift3DSystem):
         opt = self.optimizers()
         out = self(batch)
 
+        # print(f'current epoch: {self.current_epoch}')
+        # print(f'current step: {self.global_step}')
+
         visibility_filter = out["visibility_filter"]
         radii = out["radii"]
         guidance_inp = out["comp_rgb"]
